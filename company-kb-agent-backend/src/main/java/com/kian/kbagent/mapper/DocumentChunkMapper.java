@@ -28,6 +28,7 @@ public interface DocumentChunkMapper {
                     @Param("embeddingLiteral") String embeddingLiteral,
                     @Param("sourceFileName") String sourceFileName);
 
+    // pgvector cosine distance is smaller for closer vectors, so use 1 - distance as a similarity score.
     @Select("""
             SELECT id,
                    document_id AS documentId,

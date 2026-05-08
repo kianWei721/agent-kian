@@ -157,7 +157,7 @@ public class DocumentServiceImpl implements DocumentService {
                     chunk.getChunkIndex(),
                     chunk.getTitle(),
                     chunk.getContent(),
-                    HashUtils.sha256(chunk.getTitle() + "\n" + chunk.getContent()),
+                    HashUtils.sha256((chunk.getTitle() == null ? "" : chunk.getTitle()) + "\n" + chunk.getContent()),
                     chunk.getContent().length(),
                     VectorUtils.toPgVectorLiteral(embeddings.get(index)),
                     document.getFileName()
