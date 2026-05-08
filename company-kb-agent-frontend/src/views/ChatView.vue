@@ -2,16 +2,16 @@
 import { ref, watch } from 'vue'
 import { askQuestion } from '../api/chat'
 
-const SESSION_STORAGE_KEY = 'kb-agent-session-id'
+const SESSION_LOCAL_STORAGE_KEY = 'kb-agent-session-id'
 
 const asking = ref(false)
-const sessionId = ref(window.localStorage.getItem(SESSION_STORAGE_KEY) || `${Date.now()}`)
+const sessionId = ref(window.localStorage.getItem(SESSION_LOCAL_STORAGE_KEY) || `${Date.now()}`)
 const question = ref('')
 const answer = ref('')
 const references = ref([])
 
 watch(sessionId, (value) => {
-  window.localStorage.setItem(SESSION_STORAGE_KEY, value)
+  window.localStorage.setItem(SESSION_LOCAL_STORAGE_KEY, value)
 })
 
 async function submitQuestion() {
