@@ -35,6 +35,7 @@ public class ChatServiceImpl implements ChatService {
         List<RetrievalChunkVO> chunks = retrievalResponse.getChunks();
         List<ChatReferenceVO> references = buildReferences(chunks);
         if (references.isEmpty()) {
+            // Retrieval did not find reliable evidence, so return the fixed refusal answer instead of guessing.
             return ChatAnswerVO.builder()
                     .answer(PromptBuilder.NO_EVIDENCE_ANSWER)
                     .references(List.of())

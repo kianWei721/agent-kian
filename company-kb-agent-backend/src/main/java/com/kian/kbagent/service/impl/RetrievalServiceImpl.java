@@ -113,7 +113,8 @@ public class RetrievalServiceImpl implements RetrievalService {
         double vectorScore = nullSafe(candidate.getVectorScore());
         double keywordScore = nullSafe(candidate.getKeywordScore());
         double normalizedKeyword = Math.min(keywordScore, 1D);
-        // Prefer semantic recall, keep keyword hits as a supplement, and slightly boost dual-hit chunks.
+        // Prefer semantic recall as the primary signal (70%), keep keyword recall as a supporting signal (30%),
+        // and give dual-hit chunks an extra 0.15 bonus because they are usually both semantically close and lexically grounded.
         double hybridBonus = "hybrid".equals(candidate.getRetrievalType()) ? 0.15D : 0D;
         candidate.setFinalScore(vectorScore * 0.7D + normalizedKeyword * 0.3D + hybridBonus);
     }
