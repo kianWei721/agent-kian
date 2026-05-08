@@ -10,7 +10,6 @@ import com.kian.kbagent.vo.RetrievalChunkVO;
 import com.kian.kbagent.vo.RetrievalResponseVO;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -65,7 +64,7 @@ public class RetrievalServiceImpl implements RetrievalService {
     }
 
     private void mergeCandidates(Map<String, RetrievalCandidate> merged, List<RetrievalCandidate> candidates) {
-        for (RetrievalCandidate candidate : candidates == null ? new ArrayList<>() : candidates) {
+        for (RetrievalCandidate candidate : candidates == null ? List.<RetrievalCandidate>of() : candidates) {
             String key = candidate.getDocumentId() + "-" + candidate.getChunkIndex();
             RetrievalCandidate existing = merged.get(key);
             if (existing == null) {
@@ -73,7 +72,7 @@ public class RetrievalServiceImpl implements RetrievalService {
                 continue;
             }
             existing.setScore(Math.max(nullSafe(existing.getScore()), nullSafe(candidate.getScore())));
-            if (!existing.getRetrievalType().equals(candidate.getRetrievalType())) {
+            if (!java.util.Objects.equals(existing.getRetrievalType(), candidate.getRetrievalType())) {
                 existing.setRetrievalType("hybrid");
             }
         }

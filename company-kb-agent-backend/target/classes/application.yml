@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: kb-agent-backend
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/company_kb_agent}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    banner: false
+
+storage:
+  upload-dir: ${UPLOAD_DIR:./data/uploads}
+
+dashscope:
+  api-key: ${DASHSCOPE_API_KEY:}
+  base-url: ${DASHSCOPE_BASE_URL:https://dashscope.aliyuncs.com}
+  embedding-model: ${DASHSCOPE_EMBEDDING_MODEL:text-embedding-v4}
+
+rag:
+  chunk-size: ${RAG_CHUNK_SIZE:700}
+  chunk-overlap: ${RAG_CHUNK_OVERLAP:120}
+  vector-recall-limit: ${RAG_VECTOR_RECALL_LIMIT:30}
+  keyword-recall-limit: ${RAG_KEYWORD_RECALL_LIMIT:20}
+  final-top-k: ${RAG_FINAL_TOP_K:8}
+  min-score: ${RAG_MIN_SCORE:0.35}

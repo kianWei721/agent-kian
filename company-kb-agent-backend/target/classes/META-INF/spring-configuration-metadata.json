@@ -1,0 +1,78 @@
+{
+  "groups": [
+    {
+      "name": "dashscope",
+      "type": "com.kian.kbagent.config.DashScopeProperties",
+      "sourceType": "com.kian.kbagent.config.DashScopeProperties"
+    },
+    {
+      "name": "rag",
+      "type": "com.kian.kbagent.config.RagProperties",
+      "sourceType": "com.kian.kbagent.config.RagProperties"
+    },
+    {
+      "name": "storage",
+      "type": "com.kian.kbagent.config.StorageProperties",
+      "sourceType": "com.kian.kbagent.config.StorageProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "dashscope.api-key",
+      "type": "java.lang.String",
+      "sourceType": "com.kian.kbagent.config.DashScopeProperties"
+    },
+    {
+      "name": "dashscope.base-url",
+      "type": "java.lang.String",
+      "sourceType": "com.kian.kbagent.config.DashScopeProperties"
+    },
+    {
+      "name": "dashscope.embedding-model",
+      "type": "java.lang.String",
+      "sourceType": "com.kian.kbagent.config.DashScopeProperties"
+    },
+    {
+      "name": "rag.chunk-overlap",
+      "type": "java.lang.Integer",
+      "sourceType": "com.kian.kbagent.config.RagProperties",
+      "defaultValue": 120
+    },
+    {
+      "name": "rag.chunk-size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.kian.kbagent.config.RagProperties",
+      "defaultValue": 700
+    },
+    {
+      "name": "rag.final-top-k",
+      "type": "java.lang.Integer",
+      "sourceType": "com.kian.kbagent.config.RagProperties",
+      "defaultValue": 8
+    },
+    {
+      "name": "rag.keyword-recall-limit",
+      "type": "java.lang.Integer",
+      "sourceType": "com.kian.kbagent.config.RagProperties",
+      "defaultValue": 20
+    },
+    {
+      "name": "rag.min-score",
+      "type": "java.lang.Double",
+      "sourceType": "com.kian.kbagent.config.RagProperties",
+      "defaultValue": 0.35
+    },
+    {
+      "name": "rag.vector-recall-limit",
+      "type": "java.lang.Integer",
+      "sourceType": "com.kian.kbagent.config.RagProperties",
+      "defaultValue": 30
+    },
+    {
+      "name": "storage.upload-dir",
+      "type": "java.lang.String",
+      "sourceType": "com.kian.kbagent.config.StorageProperties"
+    }
+  ],
+  "hints": []
+}
