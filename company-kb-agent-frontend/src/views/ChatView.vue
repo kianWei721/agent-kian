@@ -1,21 +1,29 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { askQuestion } from '../api/chat'
 
+const SESSION_STORAGE_KEY = 'kb-agent-session-id'
+
 const asking = ref(false)
+const sessionId = ref(window.localStorage.getItem(SESSION_STORAGE_KEY) || `${Date.now()}`)
 const question = ref('')
 const answer = ref('')
 const references = ref([])
 
+watch(sessionId, (value) => {
+  window.localStorage.setItem(SESSION_STORAGE_KEY, value)
+})
+
 async function submitQuestion() {
-  if (!question.value.trim()) {
+  const resolvedSessionId = Number(sessionId.value)
+  if (!question.value.trim() || !sessionId.value.trim() || Number.isNaN(resolvedSessionId)) {
     return
   }
   asking.value = true
   try {
     const result = await askQuestion({
       question: question.value.trim(),
-      sessionId: 1,
+      sessionId: resolvedSessionId,
     })
     answer.value = result.answer || ''
     references.value = result.references || []
@@ -35,6 +43,13 @@ async function submitQuestion() {
       </template>
 
       <el-form label-position="top">
+        <el-form-item label="会话 ID">
+          <el-input
+            v-model="sessionId"
+            type="number"
+            placeholder="可自定义会话 ID，默认自动生成"
+          />
+        </el-form-item>
         <el-form-item label="你的问题">
           <el-input
             v-model="question"
