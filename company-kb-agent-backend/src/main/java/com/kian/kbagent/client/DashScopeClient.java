@@ -16,6 +16,7 @@ import java.util.Map;
 public class DashScopeClient {
 
     private static final String EMBEDDING_URI = "/api/v1/services/embeddings/text-embedding/text-embedding";
+    private static final String CHAT_URI = "/compatible-mode/v1/chat/completions";
 
     private final RestClient restClient;
     private final DashScopeProperties properties;
@@ -29,9 +30,7 @@ public class DashScopeClient {
         if (CollectionUtils.isEmpty(texts)) {
             return List.of();
         }
-        if (!StringUtils.hasText(properties.getApiKey())) {
-            throw new BusinessException(500, "未配置 DASHSCOPE_API_KEY");
-        }
+        validateApiKey();
 
         Map<String, Object> requestBody = Map.of(
                 "model", properties.getEmbeddingModel(),
@@ -64,5 +63,38 @@ public class DashScopeClient {
             result.add(vector);
         }
         return result;
+    }
+
+    public String chat(String prompt) {
+        validateApiKey();
+        Map<String, Object> requestBody = Map.of(
+                "model", properties.getChatModel(),
+                "messages", List.of(Map.of("role", "user", "content", prompt))
+        );
+
+        JsonNode response = restClient.post()
+                .uri(properties.getBaseUrl() + CHAT_URI)
+                .header("Authorization", "Bearer " + properties.getApiKey())
+                .header("Content-Type", "application/json")
+                .body(requestBody)
+                .retrieve()
+                .body(JsonNode.class);
+
+        JsonNode contentNode = response == null ? null
+                : response.path("choices").path(0).path("message").path("content");
+        if (contentNode == null || contentNode.isMissingNode() || !contentNode.isTextual()) {
+            throw new BusinessException(500, "DashScope Chat 响应为空");
+        }
+        return contentNode.asText();
+    }
+
+    public String getReservedRerankModel() {
+        return properties.getRerankModel();
+    }
+
+    private void validateApiKey() {
+        if (!StringUtils.hasText(properties.getApiKey())) {
+            throw new BusinessException(500, "未配置 DASHSCOPE_API_KEY");
+        }
     }
 }

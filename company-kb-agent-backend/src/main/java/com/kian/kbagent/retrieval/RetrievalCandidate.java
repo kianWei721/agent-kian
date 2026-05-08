@@ -13,4 +13,7 @@ public class RetrievalCandidate {
     private String sourceFileName;
     private Double score;
     private String retrievalType;
+    private Double vectorScore;
+    private Double keywordScore;
+    private Double finalScore;
 }

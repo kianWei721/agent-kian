@@ -16,4 +16,7 @@ public class DashScopeProperties {
     private String baseUrl;
     @NotBlank
     private String embeddingModel;
+    @NotBlank
+    private String chatModel;
+    private String rerankModel = "qwen3-rerank";
 }
