@@ -6,7 +6,7 @@ import ChatView from '../views/ChatView.vue'
 const routes = [
   {
     path: '/',
-    redirect: '/documents/upload',
+    redirect: '/chat',
   },
   {
     path: '/documents/upload',

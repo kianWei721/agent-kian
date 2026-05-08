@@ -1,33 +1,54 @@
 <script setup>
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
+const router = useRouter()
 
 const activeMenu = computed(() => route.path)
-const pageTitle = computed(() => route.meta?.title || '企业知识库 Agent')
+
+function newChat() {
+  router.push('/chat')
+}
 </script>
 
 <template>
-  <el-container class="app-shell">
-    <el-aside width="220px" class="app-aside">
-      <div class="brand">企业知识库 Agent</div>
-      <el-menu :default-active="activeMenu" router class="menu">
-        <el-menu-item index="/documents/upload">文档上传</el-menu-item>
-        <el-menu-item index="/documents">文档列表</el-menu-item>
-        <el-menu-item index="/chat">知识库问答</el-menu-item>
-      </el-menu>
-    </el-aside>
-    <el-container>
-      <el-header class="app-header">
-        <div>
-          <h2>{{ pageTitle }}</h2>
-          <p>简洁可用的 RAG 管理前端</p>
-        </div>
-      </el-header>
-      <el-main class="app-main">
-        <router-view />
-      </el-main>
-    </el-container>
-  </el-container>
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-icon">🧠</span>
+        <span class="brand-text">企业知识库 Agent</span>
+      </div>
+
+      <div class="sidebar-actions">
+        <button class="new-chat-btn" @click="newChat">
+          <span>＋</span> 新建对话
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <router-link to="/chat" class="nav-item" :class="{ active: activeMenu === '/chat' }">
+          <span class="nav-icon">💬</span> 知识库问答
+        </router-link>
+        <router-link to="/documents/upload" class="nav-item" :class="{ active: activeMenu === '/documents/upload' }">
+          <span class="nav-icon">📤</span> 文档上传
+        </router-link>
+        <router-link to="/documents" class="nav-item" :class="{ active: activeMenu === '/documents' }">
+          <span class="nav-icon">📄</span> 文档管理
+        </router-link>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-footer-label">近期会话</div>
+        <div class="recent-session">今天的对话</div>
+        <div class="recent-session">昨天的对话</div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+      <router-view />
+    </main>
+  </div>
 </template>
