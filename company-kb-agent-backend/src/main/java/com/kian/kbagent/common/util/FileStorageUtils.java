@@ -23,9 +23,7 @@ public final class FileStorageUtils {
     public static Path buildStoragePath(String uploadDir, String originalFilename) {
         String fileName = Paths.get(StringUtils.cleanPath(originalFilename)).getFileName().toString();
         String extension = resolveExtension(fileName);
-        String baseName = fileName.replaceAll("\\.[^.]+$", "");
-        String safeName = baseName.replaceAll("[^a-zA-Z0-9\\u4e00-\\u9fa5_-]", "_");
-        String finalFileName = safeName + "-" + UUID.randomUUID() + "." + extension;
+        String finalFileName = UUID.randomUUID() + "." + extension;
         return Paths.get(uploadDir).toAbsolutePath().normalize().resolve(finalFileName);
     }
 }
