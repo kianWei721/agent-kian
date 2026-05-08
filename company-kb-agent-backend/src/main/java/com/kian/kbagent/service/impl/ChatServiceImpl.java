@@ -15,6 +15,8 @@ import java.util.List;
 @Service
 public class ChatServiceImpl implements ChatService {
 
+    private static final int REFERENCE_CONTENT_SUMMARY_LENGTH = 120;
+
     private final RetrievalService retrievalService;
     private final PromptBuilder promptBuilder;
     private final DashScopeClient dashScopeClient;
@@ -79,6 +81,8 @@ public class ChatServiceImpl implements ChatService {
         if (content == null) {
             return "";
         }
-        return content.length() <= 120 ? content : content.substring(0, 120) + "...";
+        return content.length() <= REFERENCE_CONTENT_SUMMARY_LENGTH
+                ? content
+                : content.substring(0, REFERENCE_CONTENT_SUMMARY_LENGTH) + "...";
     }
 }

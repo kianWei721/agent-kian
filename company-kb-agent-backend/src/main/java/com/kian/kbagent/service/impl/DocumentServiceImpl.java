@@ -67,9 +67,13 @@ public class DocumentServiceImpl implements DocumentService {
         String fileType = FileStorageUtils.resolveExtension(originalFileName);
         documentParserFactory.getParser(fileType);
 
+        Path uploadRoot = Path.of(storageProperties.getUploadDir()).toAbsolutePath().normalize();
         Path storagePath = FileStorageUtils.buildStoragePath(storageProperties.getUploadDir(), originalFileName);
+        if (!storagePath.startsWith(uploadRoot)) {
+            throw new BusinessException(500, "文件存储路径非法");
+        }
         try {
-            Files.createDirectories(storagePath.getParent());
+            Files.createDirectories(uploadRoot);
             file.transferTo(storagePath);
         } catch (IOException ex) {
             throw new BusinessException(500, "文件保存失败: " + ex.getMessage());
