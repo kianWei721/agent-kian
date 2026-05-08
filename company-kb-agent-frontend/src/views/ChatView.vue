@@ -5,7 +5,7 @@ import { askQuestion } from '../api/chat'
 const SESSION_LOCAL_STORAGE_KEY = 'kb-agent-session-id'
 
 const asking = ref(false)
-const sessionId = ref(window.localStorage.getItem(SESSION_LOCAL_STORAGE_KEY) || `${Date.now()}`)
+const sessionId = ref(window.localStorage.getItem(SESSION_LOCAL_STORAGE_KEY) || `${Math.floor(Date.now() / 1000)}`)
 const question = ref('')
 const answer = ref('')
 const references = ref([])
@@ -16,7 +16,7 @@ watch(sessionId, (value) => {
 
 async function submitQuestion() {
   const resolvedSessionId = Number(sessionId.value)
-  if (!question.value.trim() || !sessionId.value.trim() || Number.isNaN(resolvedSessionId)) {
+  if (!question.value.trim() || !Number.isInteger(resolvedSessionId) || resolvedSessionId <= 0) {
     return
   }
   asking.value = true
