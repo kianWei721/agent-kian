@@ -17,3 +17,7 @@ export function listDocuments() {
 export function parseDocument(id) {
   return request.post(`/documents/${id}/parse`)
 }
+
+export function deleteDocument(id) {
+  return request.delete(`/documents/${id}`)
+}
